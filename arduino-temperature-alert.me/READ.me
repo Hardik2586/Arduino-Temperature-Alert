@@ -1,0 +1,63 @@
+int baseTemp = 29;
+int celsius = 0;
+int fahrenheit = 0;
+
+void setup(){
+  pinMode(A0,INPUT);
+  pinMode(6,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(4,OUTPUT);
+  Serial.begin(9600);
+  pinMode(10,OUTPUT);
+}
+
+void loop(){
+  
+  int value = analogRead(A0);
+  
+  float voltage = value * (5.0 / 1024.0);
+  celsius = (voltage - 0.5) * 100;
+  fahrenheit = (celsius * 9 / 5) + 32;
+  
+  Serial.print("Temperature: ");
+  Serial.print(celsius);
+  Serial.print(" C, \n");
+  Serial.print(fahrenheit);
+  Serial.print(" F\n");
+  
+  if(celsius < baseTemp )
+    {
+     digitalWrite(6,LOW);
+     digitalWrite(5,LOW);
+     digitalWrite(4,LOW);
+     noTone(10);
+    }
+   else if(celsius >= baseTemp && celsius < baseTemp + 15)
+   {           
+     digitalWrite(6,HIGH);
+     digitalWrite(5,LOW);
+     digitalWrite(4,LOW);
+     tone(10,1000,150);
+
+   }
+  else if(celsius >= baseTemp +15 && celsius < baseTemp + 25)
+   {           
+     digitalWrite(6,HIGH);
+     digitalWrite(5,HIGH);
+     digitalWrite(4,LOW);
+     tone(10,1500,150);             
+    }
+ 
+   
+   else if(celsius >= baseTemp + 25 )
+   {           
+     digitalWrite(6,HIGH);
+     digitalWrite(5,HIGH);
+     digitalWrite(4,HIGH);
+     tone(10,2000);
+   }  
+  
+          
+   delay(1000);
+    }  
+    
